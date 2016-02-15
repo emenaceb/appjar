@@ -1,4 +1,4 @@
-package org.ejmc.maven.appjar;
+package org.ejmc.appjar.boot;
 
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -6,6 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarFile;
 
+/**
+ * Holds App information.
+ * 
+ * @author ejmc
+ *
+ */
 public class AppJarInfo {
 
 	private static AppJarInfo instance = new AppJarInfo();
@@ -39,11 +45,11 @@ public class AppJarInfo {
 		this.jarFile = jarFile;
 	}
 
-	public List<URL> getLibs() {
+	public List<URL> getLibraryURLs() {
 		return libs;
 	}
 
-	public void addLib(URL url) {
+	public void addLibrary(URL url) {
 		this.libs.add(url);
 	}
 

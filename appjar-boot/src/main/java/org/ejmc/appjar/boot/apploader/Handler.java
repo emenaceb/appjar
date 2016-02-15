@@ -1,4 +1,4 @@
-package org.ejmc.maven.appjar.apploader;
+package org.ejmc.appjar.boot.apploader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -6,10 +6,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 
-import org.ejmc.maven.appjar.AppJarInfo;
+import org.ejmc.appjar.boot.AppJarInfo;
 
 /**
- *
+ * Handles apploader protocol.
+ * 
+ * @author ejmc
+ * 
  */
 public class Handler extends URLStreamHandler {
 

@@ -1,3 +1,6 @@
-# appjar
+# App Jar
 
-App Jar Packaging
+AppJar packages an application in a single jar just like Maven Shade Plugin or OneJar Plugin.
+
+ 
+
