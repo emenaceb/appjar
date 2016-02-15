@@ -6,7 +6,7 @@
 		<artifactId>oss-parent</artifactId>
 		<version>9</version>
 	</parent>
-	
+
 	<groupId>org.ejmc.maven.appjar</groupId>
 	<artifactId>appjar-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -14,8 +14,13 @@
 
 	<name>AppJar</name>
 	<description>Packages an application in a single jar.</description>
-	
+
 	<url>https://github.com/emenaceb/appjar</url>
+
+	<modules>
+		<module>appjar-boot</module>
+		<module>appjar-maven-plugin</module>
+	</modules>
 
 	<licenses>
 		<license>
@@ -39,9 +44,21 @@
 	</scm>
 
 
-	<modules>
-		<module>appjar-boot</module>
-		<module>appjar-maven-plugin</module>
-	</modules>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>1.5</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.4.2</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
 </project>
