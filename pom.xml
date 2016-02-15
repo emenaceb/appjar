@@ -1,19 +1,47 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.ejmc.maven.appjar</groupId>
-  <artifactId>appjar-parent</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>9</version>
+	</parent>
+	
+	<groupId>org.ejmc.maven.appjar</groupId>
+	<artifactId>appjar-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>AppJar</name>
+	<description>Packages an application in a single jar.</description>
+	
+	<url>https://github.com/emenaceb/appjar</url>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Emilio Jose Mena Cebrian</name>
+			<email>emenaceb@gmail.com</email>
+			<organizationUrl>https://github.com/emenaceb</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git@github.com:emenaceb/appjar.git</connection>
+		<developerConnection>scm:git:git@github.com:emenaceb/appjar.git</developerConnection>
+		<url>git@github.com:emenaceb/appjar.git</url>
+	</scm>
 
 
-
-
-  <name>AppJar</name>
-
-
-  <modules>
-  	<module>appjar-boot</module>
-  	<module>appjar-maven-plugin</module>
-  </modules>
+	<modules>
+		<module>appjar-boot</module>
+		<module>appjar-maven-plugin</module>
+	</modules>
 
 </project>
