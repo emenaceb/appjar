@@ -30,7 +30,7 @@ public class AppJarBoot {
 
 	private static final String BASE_PACKAGE = "org.ejmc.appjar";
 
-	private static final String MF_FAT_JAR_MAIN_CLASS = "FatJar-Main-Class";
+	private static final String MF_APPJAR_MAIN_CLASS = "AppJar-Main-Class";
 
 	private final static Pattern LIB_PATTERN = Pattern.compile("^lib/([^/]+)/$");
 
@@ -82,34 +82,14 @@ public class AppJarBoot {
 
 	public void extractMainClass(AppJarInfo info) throws IOException {
 		Manifest manifest = info.getJarFile().getManifest();
-		String mainClass = manifest.getMainAttributes().getValue(MF_FAT_JAR_MAIN_CLASS);
+		String mainClass = manifest.getMainAttributes().getValue(MF_APPJAR_MAIN_CLASS);
 		if (mainClass == null || mainClass.trim().length() == 0) {
-			throw new IOException(MF_FAT_JAR_MAIN_CLASS + " no presente o vacio ");
+			throw new IOException(MF_APPJAR_MAIN_CLASS + " missing or empty ");
 		}
 		info.setMainClass(mainClass);
 	}
 
-	public JarEntry findJarEntry(JarInputStream jis, String name) throws IOException {
-		JarEntry entry;
-		while ((entry = jis.getNextJarEntry()) != null) {
-			if (entry.getName().equals(name)) {
-				return entry;
-			}
-		}
-		return null;
-	}
-
-	public ZipEntry findZipEntry(ZipFile zip, String name) throws IOException {
-		Enumeration<? extends ZipEntry> entries = zip.entries();
-		while (entries.hasMoreElements()) {
-			ZipEntry entry = entries.nextElement();
-			if (entry.getName().equals(name))
-				return entry;
-		}
-		return null;
-	}
-
-	public File getMyJarFile() {
+	public File findExecutableJar() {
 
 		String myJarPath = null;
 		try {
@@ -121,7 +101,7 @@ public class AppJarBoot {
 			String jars[] = jarname.split(System.getProperty("path.separator"));
 			for (int i = 0; i < jars.length; i++) {
 				jarname = jars[i];
-				System.out.println("Checking " + jarname + " as Fat-Jar file");
+				System.out.println("Checking " + jarname + " as AppJar file");
 				// Allow for URL based paths, as well as file-based paths.
 				// File
 				InputStream is = null;
@@ -171,8 +151,28 @@ public class AppJarBoot {
 		return jar;
 	}
 
+	public JarEntry findJarEntry(JarInputStream jis, String name) throws IOException {
+		JarEntry entry;
+		while ((entry = jis.getNextJarEntry()) != null) {
+			if (entry.getName().equals(name)) {
+				return entry;
+			}
+		}
+		return null;
+	}
+
+	public ZipEntry findZipEntry(ZipFile zip, String name) throws IOException {
+		Enumeration<? extends ZipEntry> entries = zip.entries();
+		while (entries.hasMoreElements()) {
+			ZipEntry entry = entries.nextElement();
+			if (entry.getName().equals(name))
+				return entry;
+		}
+		return null;
+	}
+
 	private void openJar(AppJarInfo info) throws IOException {
-		File file = getMyJarFile();
+		File file = findExecutableJar();
 		final JarFile jarFile = new JarFile(file);
 		info.setJarFile(jarFile);
 		Runtime.getRuntime().addShutdownHook(new Thread() {
