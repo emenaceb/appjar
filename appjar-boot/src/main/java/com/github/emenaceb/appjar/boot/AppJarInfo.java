@@ -1,4 +1,4 @@
-package org.ejmc.appjar.boot;
+package com.github.emenaceb.appjar.boot;
 
 import java.net.URL;
 import java.net.URLClassLoader;

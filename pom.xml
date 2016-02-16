@@ -7,7 +7,7 @@
 		<version>9</version>
 	</parent>
 
-	<groupId>org.ejmc.maven.appjar</groupId>
+	<groupId>com.github.emenaceb.appjar</groupId>
 	<artifactId>appjar-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -15,9 +15,15 @@
 	<name>AppJar</name>
 	<description>Packages an application in a single jar.</description>
 
+	<organization>
+		<name>emenaceb</name>
+		<url>https://github.com/emenaceb</url>
+	</organization>
+
 	<url>https://github.com/emenaceb/appjar</url>
 
 	<modules>
+		<module>appjar-assemblies</module>
 		<module>appjar-boot</module>
 		<module>appjar-maven-plugin</module>
 	</modules>

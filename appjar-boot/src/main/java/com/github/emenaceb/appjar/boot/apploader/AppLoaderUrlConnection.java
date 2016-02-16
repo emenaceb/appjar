@@ -1,4 +1,4 @@
-package org.ejmc.appjar.boot.apploader;
+package com.github.emenaceb.appjar.boot.apploader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +7,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+
+import com.github.emenaceb.appjar.boot.MagicAppJarBoot;
 
 /**
  * UrlConnection to load appjar resources.
@@ -43,7 +45,7 @@ public final class AppLoaderUrlConnection extends URLConnection {
 
 	private String getInnerResource(URL u) {
 		String innerJar = u.getHost();
-		innerJar = "lib/" + innerJar;
+		innerJar = MagicAppJarBoot.LIB_PREFIX + innerJar;
 		String relativePath = u.getPath();
 		String path = innerJar + relativePath;
 		return path;

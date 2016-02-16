@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-	  <groupId>org.ejmc.maven.appjar</groupId>
+	  <groupId>com.github.emenaceb.appjar</groupId>
 	  <artifactId>appjar-parent</artifactId>
 	  <version>0.0.1-SNAPSHOT</version>
   </parent>

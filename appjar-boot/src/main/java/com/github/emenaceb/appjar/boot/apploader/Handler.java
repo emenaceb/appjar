@@ -1,4 +1,4 @@
-package org.ejmc.appjar.boot.apploader;
+package com.github.emenaceb.appjar.boot.apploader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 
-import org.ejmc.appjar.boot.AppJarInfo;
+import com.github.emenaceb.appjar.boot.AppJarInfo;
 
 /**
  * Handles apploader protocol.

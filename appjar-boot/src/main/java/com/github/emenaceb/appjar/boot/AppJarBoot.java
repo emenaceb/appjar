@@ -1,4 +1,4 @@
-package org.ejmc.appjar.boot;
+package com.github.emenaceb.appjar.boot;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.ejmc.appjar.boot.apploader.Handler;
+import com.github.emenaceb.appjar.boot.apploader.Handler;
 
 /**
  * AppJar boot class.
@@ -28,11 +28,7 @@ import org.ejmc.appjar.boot.apploader.Handler;
  */
 public class AppJarBoot {
 
-	private static final String BASE_PACKAGE = "org.ejmc.appjar";
-
-	private static final String MF_APPJAR_MAIN_CLASS = "AppJar-Main-Class";
-
-	private final static Pattern LIB_PATTERN = Pattern.compile("^lib/([^/]+)/$");
+	private final static Pattern LIB_PATTERN = Pattern.compile("^" + MagicAppJarBoot.LIB_PREFIX + "([^/]+)/$");
 
 	public final static String SP_JAVA_PROTOCOL_HANDLER = "java.protocol.handler.pkgs";
 
@@ -46,7 +42,6 @@ public class AppJarBoot {
 
 	private void createClassLoader(AppJarInfo info) {
 		URL[] urls = info.getLibraryURLs().toArray(new URL[info.getLibraryURLs().size()]);
-
 		URLClassLoader classLoader = new URLClassLoader(urls, getClass().getClassLoader());
 		info.setClassLoader(classLoader);
 
@@ -82,9 +77,9 @@ public class AppJarBoot {
 
 	public void extractMainClass(AppJarInfo info) throws IOException {
 		Manifest manifest = info.getJarFile().getManifest();
-		String mainClass = manifest.getMainAttributes().getValue(MF_APPJAR_MAIN_CLASS);
+		String mainClass = manifest.getMainAttributes().getValue(MagicAppJarBoot.MF_APPJAR_MAIN_CLASS);
 		if (mainClass == null || mainClass.trim().length() == 0) {
-			throw new IOException(MF_APPJAR_MAIN_CLASS + " missing or empty ");
+			throw new IOException(MagicAppJarBoot.MF_APPJAR_MAIN_CLASS + " missing or empty ");
 		}
 		info.setMainClass(mainClass);
 	}
@@ -187,6 +182,26 @@ public class AppJarBoot {
 		});
 	}
 
+	private void printBanner() {
+
+		if (System.getProperty(MagicAppJarBoot.SP_APPJAR_NO_BANNER) == null) {
+			String version = getClass().getPackage().getImplementationVersion();
+			if (version == null) {
+				version = "???";
+			} else {
+				version = version.trim();
+			}
+			System.out.println("   ___                  __        ");
+			System.out.println("  / _ | ___  ___    __ / /__ _____        ");
+			System.out.println(" / __ |/ _ \\/ _ \\  / // / _ `/ __/      ");
+			System.out.println("/_/ |_/ .__/ .__/  \\___/\\_,_/_/         v " + version);
+			System.out.println("     /_/  /_/                             ");
+			System.out.println("                                        by emenaceb 2016");
+			System.out.println("----------------------------------------------------------------------");
+		}
+
+	}
+
 	private void registerProtocol() {
 
 		String handlerPackage = System.getProperty(SP_JAVA_PROTOCOL_HANDLER);
@@ -195,11 +210,13 @@ public class AppJarBoot {
 		} else if (handlerPackage.length() > 0) {
 			handlerPackage = "|" + handlerPackage;
 		}
-		handlerPackage = BASE_PACKAGE + handlerPackage;
+		handlerPackage = getClass().getPackage().getName() + handlerPackage;
 		System.setProperty(SP_JAVA_PROTOCOL_HANDLER, handlerPackage);
 	}
 
 	public void run(String[] args) throws Exception {
+
+		printBanner();
 
 		registerProtocol();
 

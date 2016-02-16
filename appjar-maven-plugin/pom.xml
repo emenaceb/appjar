@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.ejmc.maven.appjar</groupId>
+		<groupId>com.github.emenaceb.appjar</groupId>
 		<artifactId>appjar-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 
@@ -16,6 +16,11 @@
 
 
 	<dependencies>
+		<dependency>
+			<groupId>com.github.emenaceb.appjar</groupId>
+			<artifactId>appjar-boot</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.apache.maven</groupId>
@@ -37,6 +42,29 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.twdata.maven</groupId>
+			<artifactId>mojo-executor</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-utils</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-dependency-plugin</artifactId>
+			<version>2.10</version>
+		</dependency>
 	</dependencies>
 
 
