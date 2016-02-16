@@ -20,6 +20,10 @@
 		<module>appjar-maven-plugin</module>
 	</modules>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<build>
 
 		<plugins>
@@ -47,6 +51,18 @@
 					<serverId>ossrh</serverId>
 					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
 					<autoReleaseAfterClose>false</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>1.8</version>
+				<configuration>
+					<excludedLicenses>Unknown license</excludedLicenses>
+					<excludedScopes>system|test|provided</excludedScopes>
+					<generateBundle>true</generateBundle>
+					<licenseName>apache_v2</licenseName>
 				</configuration>
 			</plugin>
 
@@ -105,7 +121,7 @@
 
 	<description>Packages an application in a single jar.</description>
 	<url>https://github.com/emenaceb/appjar</url>
-
+	<inceptionYear>2016</inceptionYear>
 
 	<organization>
 		<name>emenaceb</name>
@@ -114,7 +130,7 @@
 
 	<licenses>
 		<license>
-			<name>The Apache License, Version 2.0</name>
+			<name>The Apache Software License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
