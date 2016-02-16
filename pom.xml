@@ -23,7 +23,6 @@
 	<url>https://github.com/emenaceb/appjar</url>
 
 	<modules>
-		<module>appjar-assemblies</module>
 		<module>appjar-boot</module>
 		<module>appjar-maven-plugin</module>
 	</modules>
