@@ -64,6 +64,35 @@
 					<generateBundle>true</generateBundle>
 					<licenseName>apache_v2</licenseName>
 				</configuration>
+				<executions>
+					<execution>
+						<id>add_third_party</id>
+						<goals>
+							<goal>aggregate-add-third-party</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>2.11</version>
+				<configuration>
+					<aggregate>true</aggregate>
+					<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+					<properties>
+						<owner>emenaceb</owner>
+						<email>emenaceb@gmail.com</email>
+					</properties>
+					<excludes>
+						<exclude>**/pom.xml</exclude>
+						<exclude>**/README</exclude>
+						<exclude>**/LICENSE.txt</exclude>
+						<exclude>src/test/resources/**</exclude>
+						<exclude>src/main/resources/**</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 
 		</plugins>
@@ -130,7 +159,7 @@
 
 	<licenses>
 		<license>
-			<name>The Apache Software License, Version 2.0</name>
+			<name>Apache License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
