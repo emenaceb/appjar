@@ -14,6 +14,12 @@ import org.twdata.maven.mojoexecutor.MojoExecutor.Element;
 import com.github.emenaceb.appjar.boot.AppJarBoot;
 import com.github.emenaceb.appjar.boot.MagicAppJarBoot;
 
+/**
+ * Packs app jar.
+ * 
+ * @author ejmc
+ *
+ */
 public class AssemblyExecutor extends BaseMojoExecutor {
 
 	public static final GoalDescriptor GOAL = new GoalDescriptor("org.apache.maven.plugins", "maven-assembly-plugin", "2.4", "single");

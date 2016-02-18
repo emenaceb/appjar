@@ -14,6 +14,12 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.twdata.maven.mojoexecutor.MojoExecutor;
 import org.twdata.maven.mojoexecutor.MojoExecutor.Element;
 
+/**
+ * Base class for other plugin executions.
+ * 
+ * @author ejmc
+ *
+ */
 public abstract class BaseMojoExecutor {
 
 	protected ExecutorContext context;

@@ -5,6 +5,12 @@ import org.apache.maven.plugin.BuildPluginManager;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.project.MavenProject;
 
+/**
+ * Plugin execution context.
+ * 
+ * @author ejmc
+ *
+ */
 public class ExecutorContext {
 
 	public ExecutorContext(PluginDescriptor plugin, MavenProject project, MavenSession session, BuildPluginManager pluginManager) {

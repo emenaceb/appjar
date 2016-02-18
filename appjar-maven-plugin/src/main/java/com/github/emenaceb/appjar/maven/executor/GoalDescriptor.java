@@ -1,5 +1,11 @@
 package com.github.emenaceb.appjar.maven.executor;
 
+/**
+ * Plugin goal execution descriptor.
+ * 
+ * @author ejmc
+ *
+ */
 public class GoalDescriptor {
 
 	private String groupId;

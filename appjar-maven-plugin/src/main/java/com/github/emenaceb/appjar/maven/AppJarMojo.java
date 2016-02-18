@@ -21,6 +21,12 @@ import com.github.emenaceb.appjar.maven.executor.AssemblyExecutor;
 import com.github.emenaceb.appjar.maven.executor.ExecutorContext;
 import com.github.emenaceb.appjar.maven.executor.UnpackDependenciesExecutor;
 
+/**
+ * Pacakges an application as an AppJar.
+ * 
+ * @author ejmc
+ *
+ */
 @Mojo(name = "appjar", defaultPhase = LifecyclePhase.PACKAGE, requiresDependencyResolution = ResolutionScope.RUNTIME)
 public class AppJarMojo extends AbstractMojo {
 
