@@ -61,8 +61,9 @@ public final class AppLoaderUrlConnection extends URLConnection {
 		if (entry != null) {
 			is = file.getInputStream(entry);
 		}
-		if (is == null)
-			throw new IOException("cl.getByteStream() returned null for " + getURL().getPath());
+		if (is == null) {
+			throw new IOException("Unable to get InputStream for " + getURL().toString());
+		}
 		return is;
 
 	}

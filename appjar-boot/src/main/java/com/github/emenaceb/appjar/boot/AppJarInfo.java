@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.jar.JarFile;
 
 /**
- * Holds App information.
+ * Holds AppJar information.
  * 
  * @author ejmc
  *
@@ -17,7 +17,6 @@ public class AppJarInfo {
 	private static AppJarInfo instance = new AppJarInfo();
 
 	public static AppJarInfo getInstance() {
-
 		return instance;
 	}
 
