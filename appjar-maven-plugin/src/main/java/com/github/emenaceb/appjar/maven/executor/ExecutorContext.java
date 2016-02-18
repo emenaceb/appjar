@@ -4,6 +4,7 @@ import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.BuildPluginManager;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.MavenProjectHelper;
 
 /**
  * Plugin execution context.
@@ -13,14 +14,6 @@ import org.apache.maven.project.MavenProject;
  */
 public class ExecutorContext {
 
-	public ExecutorContext(PluginDescriptor plugin, MavenProject project, MavenSession session, BuildPluginManager pluginManager) {
-		super();
-		this.plugin = plugin;
-		this.project = project;
-		this.session = session;
-		this.pluginManager = pluginManager;
-	}
-
 	private MavenSession session;
 
 	private MavenProject project;
@@ -29,12 +22,15 @@ public class ExecutorContext {
 
 	private BuildPluginManager pluginManager;
 
-	public MavenSession getSession() {
-		return session;
-	}
+	private MavenProjectHelper projectHelper;
 
-	public MavenProject getProject() {
-		return project;
+	public ExecutorContext(PluginDescriptor plugin, MavenProject project, MavenSession session, BuildPluginManager pluginManager, MavenProjectHelper projectHelper) {
+		super();
+		this.plugin = plugin;
+		this.project = project;
+		this.session = session;
+		this.pluginManager = pluginManager;
+		this.projectHelper = projectHelper;
 	}
 
 	public PluginDescriptor getPlugin() {
@@ -43,6 +39,18 @@ public class ExecutorContext {
 
 	public BuildPluginManager getPluginManager() {
 		return pluginManager;
+	}
+
+	public MavenProject getProject() {
+		return project;
+	}
+
+	public MavenProjectHelper getProjectHelper() {
+		return projectHelper;
+	}
+
+	public MavenSession getSession() {
+		return session;
 	}
 
 }

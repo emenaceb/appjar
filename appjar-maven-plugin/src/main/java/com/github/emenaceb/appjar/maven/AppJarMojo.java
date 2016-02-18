@@ -15,6 +15,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.MavenProjectHelper;
 
 import com.github.emenaceb.appjar.maven.executor.AddBootExecutor;
 import com.github.emenaceb.appjar.maven.executor.AssemblyExecutor;
@@ -45,18 +46,24 @@ public class AppJarMojo extends AbstractMojo {
 	@Component
 	private BuildPluginManager pluginManager;
 
+	@Component
+	private MavenProjectHelper projectHelper;
+
 	@Parameter(defaultValue = "${project.build.directory}", readonly = true)
 	private File target;
 
-	@Parameter(defaultValue = "app", readonly = false, required = true)
-	private String outputClassifier;
+	@Parameter(readonly = false, required = false)
+	private String alternateClassifier;
 
 	@Parameter(readonly = false, required = true)
 	private String mainClass;
 
+	@Parameter(defaultValue = "${project.build.finalName}", readonly = false, required = true)
+	private String finalName;
+
 	public void execute() throws MojoExecutionException, MojoFailureException {
 
-		ExecutorContext ctx = new ExecutorContext(plugin, project, session, pluginManager);
+		ExecutorContext ctx = new ExecutorContext(plugin, project, session, pluginManager, projectHelper);
 
 		getLog().info("");
 		getLog().info("Adding bootstrap");
@@ -73,7 +80,7 @@ public class AppJarMojo extends AbstractMojo {
 		getLog().info("");
 		getLog().info("Packaging application");
 		getLog().info("");
-		AssemblyExecutor assemblyExecutor = new AssemblyExecutor(ctx, mainClass);
+		AssemblyExecutor assemblyExecutor = new AssemblyExecutor(ctx, finalName, mainClass, alternateClassifier);
 
 		assemblyExecutor.exec();
 
