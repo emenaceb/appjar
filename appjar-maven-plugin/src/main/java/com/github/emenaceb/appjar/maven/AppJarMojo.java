@@ -21,8 +21,8 @@ import com.github.emenaceb.appjar.maven.executor.AssemblyExecutor;
 import com.github.emenaceb.appjar.maven.executor.ExecutorContext;
 import com.github.emenaceb.appjar.maven.executor.UnpackDependenciesExecutor;
 
-@Mojo(name = "package", defaultPhase = LifecyclePhase.PACKAGE, requiresDependencyResolution = ResolutionScope.RUNTIME)
-public class PackageMojo extends AbstractMojo {
+@Mojo(name = "appjar", defaultPhase = LifecyclePhase.PACKAGE, requiresDependencyResolution = ResolutionScope.RUNTIME)
+public class AppJarMojo extends AbstractMojo {
 
 	@Parameter(defaultValue = "${session}", readonly = true)
 	private MavenSession session;
