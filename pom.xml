@@ -90,7 +90,20 @@
 						<target>6</target>
 					</configuration>
 				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5.3</version>
+					<configuration>
+						<pushChanges>false</pushChanges>
+						<releaseProfiles></releaseProfiles>
+						<autoVersionSubmodules>true</autoVersionSubmodules>
+						<tagNameFormat>v@{project.version}</tagNameFormat>
+					</configuration>
+				</plugin>
 			</plugins>
+
 		</pluginManagement>
 
 	</build>
