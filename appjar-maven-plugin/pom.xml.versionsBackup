@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.github.emenaceb.appjar</groupId>
 		<artifactId>appjar-parent</artifactId>
-		<version>0.9.0-SNAPSHOT</version>
+		<version>0.0.1-SNAPSHOT</version>
 
 	</parent>
 
