@@ -61,6 +61,7 @@
 				<version>2.11</version>
 				<configuration>
 					<aggregate>true</aggregate>
+					<failIfUnknown>true</failIfUnknown>
 					<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
 					<properties>
 						<owner>emenaceb</owner>
