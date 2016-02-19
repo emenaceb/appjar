@@ -96,7 +96,7 @@
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.5.3</version>
 					<configuration>
-						<pushChanges>false</pushChanges>
+						<pushChanges>true</pushChanges>
 						<releaseProfiles>release</releaseProfiles>
 						<autoVersionSubmodules>true</autoVersionSubmodules>
 						<tagNameFormat>v@{project.version}</tagNameFormat>
@@ -136,25 +136,6 @@
 								<phase>verify</phase>
 								<goals>
 									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>license-maven-plugin</artifactId>
-						<version>1.8</version>
-						<configuration>
-							<excludedLicenses>Unknown license</excludedLicenses>
-							<excludedScopes>system|test|provided</excludedScopes>
-							<generateBundle>true</generateBundle>
-							<licenseName>apache_v2</licenseName>
-						</configuration>
-						<executions>
-							<execution>
-								<id>add_third_party</id>
-								<goals>
-									<goal>aggregate-add-third-party</goal>
 								</goals>
 							</execution>
 						</executions>
