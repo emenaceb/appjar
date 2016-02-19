@@ -23,13 +23,18 @@ import com.github.emenaceb.appjar.maven.executor.ExecutorContext;
 import com.github.emenaceb.appjar.maven.executor.UnpackDependenciesExecutor;
 
 /**
- * Pacakges an application as an AppJar.
+ * Packages an application as an AppJar.<br>
+ * <br>
+ * Packages a existing java application into a jar with all it's dependencies.
+ * <br>
+ * This goal is designed to be added to an existing project to produce a new
+ * artifact in addition to the main artifact.
  * 
  * @author ejmc
  *
  */
-@Mojo(name = "appjar", defaultPhase = LifecyclePhase.PACKAGE, requiresDependencyResolution = ResolutionScope.RUNTIME)
-public class AppJarMojo extends AbstractMojo {
+@Mojo(name = "simple", defaultPhase = LifecyclePhase.PACKAGE, requiresDependencyResolution = ResolutionScope.RUNTIME)
+public class SimpleMojo extends AbstractMojo {
 
 	@Parameter(defaultValue = "${session}", readonly = true)
 	private MavenSession session;
@@ -52,12 +57,24 @@ public class AppJarMojo extends AbstractMojo {
 	@Parameter(defaultValue = "${project.build.directory}", readonly = true)
 	private File target;
 
+	/**
+	 * Classifier for the generated artifact.<br>
+	 * By default it uses app as classifier.
+	 */
 	@Parameter(readonly = false, required = false)
 	private String alternateClassifier;
 
+	/**
+	 * Class to be executed by the AppJar Bootstrap.<br>
+	 * <br>
+	 * Equivalent to the Main-Class attribute in the manifest.
+	 */
 	@Parameter(readonly = false, required = true)
 	private String mainClass;
 
+	/**
+	 * Final name for the artifact.
+	 */
 	@Parameter(defaultValue = "${project.build.finalName}", readonly = false, required = true)
 	private String finalName;
 
