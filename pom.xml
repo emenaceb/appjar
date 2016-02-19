@@ -97,7 +97,7 @@
 					<version>2.5.3</version>
 					<configuration>
 						<pushChanges>false</pushChanges>
-						<releaseProfiles></releaseProfiles>
+						<releaseProfiles>release</releaseProfiles>
 						<autoVersionSubmodules>true</autoVersionSubmodules>
 						<tagNameFormat>v@{project.version}</tagNameFormat>
 					</configuration>
