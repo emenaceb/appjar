@@ -4,3 +4,4 @@
 .classpath
 /pom.xml.versionsBackup
 *.releaseBackup
+release.properties
