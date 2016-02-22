@@ -35,6 +35,8 @@ public class AppJarInfo {
 		return instance;
 	}
 
+	private String version;
+
 	private JarFile jarFile;
 
 	private List<URL> libs = new ArrayList<URL>();
@@ -63,6 +65,10 @@ public class AppJarInfo {
 		return mainClass;
 	}
 
+	public String getVersion() {
+		return version;
+	}
+
 	public void setClassLoader(URLClassLoader classLoader) {
 		this.classLoader = classLoader;
 	}
@@ -73,6 +79,10 @@ public class AppJarInfo {
 
 	public void setMainClass(String mainClass) {
 		this.mainClass = mainClass;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 }

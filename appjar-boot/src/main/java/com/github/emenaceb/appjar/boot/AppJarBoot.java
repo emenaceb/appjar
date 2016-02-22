@@ -15,13 +15,21 @@
  */
 package com.github.emenaceb.appjar.boot;
 
+import static com.github.emenaceb.appjar.boot.MagicAppJarBoot.LIB_PREFIX;
+import static com.github.emenaceb.appjar.boot.MagicAppJarBoot.MAVEN_APPJAR_BOOT_ARTIFACT_ID;
+import static com.github.emenaceb.appjar.boot.MagicAppJarBoot.MAVEN_APPJAR_GROUP_ID;
+import static com.github.emenaceb.appjar.boot.MagicAppJarBoot.MF_APPJAR_MAIN_CLASS;
+import static com.github.emenaceb.appjar.boot.MagicAppJarBoot.SP_APPJAR_NO_BANNER;
+
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
+import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -40,7 +48,11 @@ public class AppJarBoot {
 
 	private static final String BOOT_CLASS_FILE_NAME = AppJarBoot.class.getName().replace('.', '/') + ".class";
 
-	private final static Pattern LIB_PATTERN = Pattern.compile("^" + MagicAppJarBoot.LIB_PREFIX + "([^/]+)/$");
+	private final static Pattern LIB_PATTERN = Pattern.compile("^" + LIB_PREFIX + "([^/]+)/$");
+
+	private static final String MAVEN_META_INF = "META-INF/maven/";
+
+	private static final String MAVEN_POM_PROPERTIES = "/pom.properties";
 
 	public final static String SP_JAVA_PROTOCOL_HANDLER = "java.protocol.handler.pkgs";
 
@@ -70,8 +82,7 @@ public class AppJarBoot {
 		if (!Modifier.isStatic(modifiers) || !Modifier.isPublic(modifiers)) {
 			abort("Class " + c.getName() + " main() method has to be public and static");
 		}
-		Object main = c.newInstance();
-		m.invoke(main, new Object[] { args });
+		m.invoke(null, new Object[] { args });
 	}
 
 	public void extractLibraries(AppJarInfo info) throws IOException {
@@ -100,7 +111,7 @@ public class AppJarBoot {
 
 	public void extractMainClass(AppJarInfo info) throws IOException {
 		Manifest manifest = info.getJarFile().getManifest();
-		String mainClass = manifest.getMainAttributes().getValue(MagicAppJarBoot.MF_APPJAR_MAIN_CLASS);
+		String mainClass = manifest.getMainAttributes().getValue(MF_APPJAR_MAIN_CLASS);
 		if (mainClass != null) {
 			String trimmed = mainClass.trim();
 			if (trimmed.length() != 0) {
@@ -108,8 +119,32 @@ public class AppJarBoot {
 			}
 		}
 		if (info.getMainClass() == null) {
-			abort("Unable to find " + MagicAppJarBoot.MF_APPJAR_MAIN_CLASS + " in manifest");
+			abort("Unable to find " + MF_APPJAR_MAIN_CLASS + " in manifest");
 		}
+	}
+
+	public void extractVersion(AppJarInfo info) throws IOException {
+
+		String resource = MAVEN_META_INF + MAVEN_APPJAR_GROUP_ID + "/" + MAVEN_APPJAR_BOOT_ARTIFACT_ID + MAVEN_POM_PROPERTIES;
+		InputStream is = getClass().getClassLoader().getResourceAsStream(resource);
+		if (is == null) {
+			abort("Not an AppJar application");
+		}
+		try {
+			Properties pom = new Properties();
+			pom.load(is);
+
+			String version = pom.getProperty("version");
+			if (version == null || version.trim().length() == 0) {
+				version = "???";
+			} else {
+				version = version.trim();
+			}
+			info.setVersion(version);
+		} finally {
+			is.close();
+		}
+
 	}
 
 	public File findAppJarJar() {
@@ -176,23 +211,20 @@ public class AppJarBoot {
 		});
 	}
 
-	private void printBanner() {
-		String version = getClass().getPackage().getImplementationVersion();
-		if (version == null) {
-			version = "???";
-		} else {
-			version = version.trim();
-		}
+	private void printBanner(AppJarInfo info) {
+		String version = info.getVersion();
 
 		System.out.println();
-		if (System.getProperty(MagicAppJarBoot.SP_APPJAR_NO_BANNER) == null) {
+		if (System.getProperty(SP_APPJAR_NO_BANNER) == null) {
 
 			System.out.println("   ___                  __        ");
-			System.out.println("  / _ | ___  ___    __ / /__ _____        ");
+			System.out.println("  / _ | ___  ___    __ / /__ _____      v " + version);
 			System.out.println(" / __ |/ _ \\/ _ \\  / // / _ `/ __/      ");
-			System.out.println("/_/ |_/ .__/ .__/  \\___/\\_,_/_/         v " + version);
+			System.out.println("/_/ |_/ .__/ .__/  \\___/\\_,_/_/         by emenaceb 2016");
 			System.out.println("     /_/  /_/                             ");
-			System.out.println("                                        by emenaceb 2016");
+
+			System.out.println();
+
 		} else {
 			System.out.println(" AppJar v " + version + "  by emenaceb 2016");
 		}
@@ -224,7 +256,9 @@ public class AppJarBoot {
 
 		AppJarInfo info = AppJarInfo.getInstance();
 
-		printBanner();
+		extractVersion(info);
+
+		printBanner(info);
 
 		registerProtocol();
 

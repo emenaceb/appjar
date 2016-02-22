@@ -15,6 +15,12 @@
  */
 package com.github.emenaceb.appjar.boot;
 
+/**
+ * AppJar Boot constants.
+ * 
+ * @author ejmc
+ *
+ */
 public class MagicAppJarBoot {
 
 	public static final String MF_APPJAR_MAIN_CLASS = "AppJar-Main-Class";
@@ -26,5 +32,9 @@ public class MagicAppJarBoot {
 	public static final String MAIN_LIB = "appjar-main";
 
 	public static final String MAIN_LIB_PATH = LIB_PREFIX + MAIN_LIB;
+
+	public static final String MAVEN_APPJAR_BOOT_ARTIFACT_ID = "appjar-boot";
+
+	public static final String MAVEN_APPJAR_GROUP_ID = "com.github.emenaceb.appjar";
 
 }
