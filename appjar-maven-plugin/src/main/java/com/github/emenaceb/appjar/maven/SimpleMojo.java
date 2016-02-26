@@ -17,7 +17,9 @@ package com.github.emenaceb.appjar.maven;
 
 import java.io.File;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.execution.MavenSession;
+import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.BuildPluginManager;
 import org.apache.maven.plugin.MojoExecution;
@@ -31,11 +33,14 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
+import org.codehaus.plexus.util.xml.Xpp3Dom;
 
 import com.github.emenaceb.appjar.maven.executor.AddBootExecutor;
 import com.github.emenaceb.appjar.maven.executor.AssemblyExecutor;
 import com.github.emenaceb.appjar.maven.executor.ExecutorContext;
+import com.github.emenaceb.appjar.maven.executor.GoalDescriptor;
 import com.github.emenaceb.appjar.maven.executor.UnpackDependenciesExecutor;
+import com.github.emenaceb.appjar.maven.utils.PluginUtils;
 
 /**
  * Packages an application as an AppJar.<br>
@@ -50,6 +55,8 @@ import com.github.emenaceb.appjar.maven.executor.UnpackDependenciesExecutor;
  */
 @Mojo(name = "simple", defaultPhase = LifecyclePhase.PACKAGE, requiresDependencyResolution = ResolutionScope.RUNTIME)
 public class SimpleMojo extends AbstractMojo {
+
+	public static final GoalDescriptor JAR = new GoalDescriptor("org.apache.maven.plugins", "maven-jar-plugin", "2.0", "jar");
 
 	@Parameter(defaultValue = "${session}", readonly = true)
 	private MavenSession session;
@@ -84,7 +91,7 @@ public class SimpleMojo extends AbstractMojo {
 	 * <br>
 	 * Equivalent to the Main-Class attribute in the manifest.
 	 */
-	@Parameter(readonly = false, required = true)
+	@Parameter(readonly = false, required = false)
 	private String mainClass;
 
 	/**
@@ -112,10 +119,38 @@ public class SimpleMojo extends AbstractMojo {
 		getLog().info("");
 		getLog().info("Packaging application");
 		getLog().info("");
-		AssemblyExecutor assemblyExecutor = new AssemblyExecutor(ctx, finalName, mainClass, alternateClassifier);
+
+		String effectiveMainClass = resolveMainClass(ctx);
+		AssemblyExecutor assemblyExecutor = new AssemblyExecutor(ctx, finalName, effectiveMainClass, alternateClassifier);
 
 		assemblyExecutor.exec();
 
+	}
+
+	private String resolveMainClass(ExecutorContext ctx) throws MojoExecutionException {
+		Plugin p = PluginUtils.resolveProjectPlugin(ctx, JAR);
+		if (p != null) {
+			Xpp3Dom projectConfig = (Xpp3Dom) p.getConfiguration();
+			if (projectConfig != null) {
+				Xpp3Dom arch = projectConfig.getChild("archive");
+				if (arch != null) {
+					Xpp3Dom mf = arch.getChild("manifest");
+					if (mf != null) {
+						Xpp3Dom mc = mf.getChild("mainClass");
+						if (mc != null) {
+							String tmp = mc.getValue();
+							if (StringUtils.isNotBlank(tmp)) {
+								return tmp.trim();
+							}
+						}
+					}
+				}
+			}
+		}
+		if (mainClass == null) {
+			throw new MojoExecutionException("Can't find main class");
+		}
+		return mainClass;
 	}
 
 }

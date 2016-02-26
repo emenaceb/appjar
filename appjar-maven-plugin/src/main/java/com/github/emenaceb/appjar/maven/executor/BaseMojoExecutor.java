@@ -16,18 +16,18 @@
 package com.github.emenaceb.appjar.maven.executor;
 
 import static org.twdata.maven.mojoexecutor.MojoExecutor.executionEnvironment;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.plugin;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.twdata.maven.mojoexecutor.MojoExecutor;
 import org.twdata.maven.mojoexecutor.MojoExecutor.Element;
+
+import com.github.emenaceb.appjar.maven.utils.PluginUtils;
 
 /**
  * Base class for other plugin executions.
@@ -62,7 +62,7 @@ public abstract class BaseMojoExecutor {
 	}
 
 	protected void execMojo(GoalDescriptor goal, Xpp3Dom configuration, List<Dependency> dependencies) throws MojoExecutionException {
-		Plugin plugin = resolvePlugin(goal, dependencies);
+		Plugin plugin = PluginUtils.resolveNewPlugin(context, goal, dependencies);
 		MojoExecutor.executeMojo(//
 				plugin, //
 				goal.getGoal(), //
@@ -71,22 +71,6 @@ public abstract class BaseMojoExecutor {
 	}
 
 	public abstract void exec() throws MojoExecutionException;
-
-	private Plugin resolvePlugin(GoalDescriptor goal, List<Dependency> dependencies) {
-		String version = goal.getDefaultVersion();
-		Plugin p = context.getProject().getPlugin(goal.getGroupId() + ":" + goal.getArtifactId());
-		if (p != null) {
-			version = p.getVersion();
-		}
-		if (StringUtils.isBlank(version)) {
-			version = goal.getDefaultVersion();
-		}
-		List<Dependency> deps = dependencies;
-		if (deps == null) {
-			deps = Collections.emptyList();
-		}
-		return plugin(goal.getGroupId(), goal.getArtifactId(), version, deps);
-	}
 
 	protected List<Dependency> singleDependency(String groupId, String artifactId, String version) {
 		return Collections.singletonList(dependency(groupId, artifactId, version));
