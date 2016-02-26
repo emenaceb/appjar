@@ -26,7 +26,7 @@ import com.github.emenaceb.appjar.maven.MagicGoals;
 /**
  * Adds boot to app jar.
  * 
- * @author ejmc
+ * @author emenaceb
  *
  */
 public class AddBootExecutor extends BaseMojoExecutor {

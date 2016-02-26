@@ -28,7 +28,7 @@ import com.github.emenaceb.appjar.boot.MagicAppJarBoot;
 /**
  * UrlConnection to load appjar resources.
  * 
- * @author ejmc
+ * @author emenaceb
  *
  */
 public final class AppLoaderUrlConnection extends URLConnection {

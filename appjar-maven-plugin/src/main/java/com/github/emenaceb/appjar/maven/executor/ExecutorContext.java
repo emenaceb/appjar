@@ -24,7 +24,7 @@ import org.apache.maven.project.MavenProjectHelper;
 /**
  * Plugin execution context.
  * 
- * @author ejmc
+ * @author emenaceb
  *
  */
 public class ExecutorContext {

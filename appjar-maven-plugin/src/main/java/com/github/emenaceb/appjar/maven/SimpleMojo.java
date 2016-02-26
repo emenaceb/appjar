@@ -49,7 +49,7 @@ import com.github.emenaceb.appjar.maven.utils.PluginUtils;
  * This goal is designed to be added to an existing project to produce a new
  * artifact in addition to the main artifact.
  * 
- * @author ejmc
+ * @author emenaceb
  *
  */
 @Mojo(name = "simple", defaultPhase = LifecyclePhase.PACKAGE, requiresDependencyResolution = ResolutionScope.RUNTIME)

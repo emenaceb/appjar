@@ -18,7 +18,7 @@ package com.github.emenaceb.appjar.maven.executor;
 /**
  * Plugin goal execution descriptor.
  * 
- * @author ejmc
+ * @author emenaceb
  *
  */
 public class GoalDescriptor {

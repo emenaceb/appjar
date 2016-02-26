@@ -27,7 +27,7 @@ import com.github.emenaceb.appjar.maven.MagicGoals;
 /**
  * Adds dependencies to app jar.
  * 
- * @author ejmc
+ * @author emenaceb
  *
  */
 public class UnpackDependenciesExecutor extends BaseMojoExecutor {

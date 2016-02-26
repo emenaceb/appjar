@@ -24,7 +24,7 @@ import java.util.jar.JarFile;
 /**
  * Holds AppJar information.
  * 
- * @author ejmc
+ * @author emenaceb
  *
  */
 public class AppJarInfo {

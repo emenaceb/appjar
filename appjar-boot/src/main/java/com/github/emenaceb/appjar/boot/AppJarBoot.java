@@ -41,7 +41,7 @@ import com.github.emenaceb.appjar.boot.apploader.Handler;
 /**
  * AppJar boot class.
  * 
- * @author ejmc
+ * @author emenaceb
  *
  */
 public class AppJarBoot {

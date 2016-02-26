@@ -18,7 +18,7 @@ package com.github.emenaceb.appjar.boot;
 /**
  * AppJar Boot constants.
  * 
- * @author ejmc
+ * @author emenaceb
  *
  */
 public class MagicAppJarBoot {

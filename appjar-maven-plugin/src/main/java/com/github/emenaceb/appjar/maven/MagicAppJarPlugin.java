@@ -18,7 +18,7 @@ package com.github.emenaceb.appjar.maven;
 /**
  * Constant class for plugin
  * 
- * @author ejmc
+ * @author emenaceb
  *
  */
 public final class MagicAppJarPlugin {

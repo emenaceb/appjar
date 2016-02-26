@@ -32,7 +32,7 @@ import com.github.emenaceb.appjar.maven.utils.PluginUtils;
 /**
  * Base class for other plugin executions.
  * 
- * @author ejmc
+ * @author emenaceb
  *
  */
 public abstract class BaseMojoExecutor {

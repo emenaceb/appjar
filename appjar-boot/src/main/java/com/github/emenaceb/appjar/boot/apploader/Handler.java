@@ -26,7 +26,7 @@ import com.github.emenaceb.appjar.boot.AppJarInfo;
 /**
  * Handles apploader protocol.
  * 
- * @author ejmc
+ * @author emenaceb
  * 
  */
 public class Handler extends URLStreamHandler {

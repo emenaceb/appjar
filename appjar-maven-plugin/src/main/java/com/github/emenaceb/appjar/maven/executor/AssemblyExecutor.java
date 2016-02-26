@@ -35,7 +35,7 @@ import com.github.emenaceb.appjar.maven.MagicGoals;
 /**
  * Packs app jar.
  * 
- * @author ejmc
+ * @author emenaceb
  *
  */
 public class AssemblyExecutor extends BaseMojoExecutor {
