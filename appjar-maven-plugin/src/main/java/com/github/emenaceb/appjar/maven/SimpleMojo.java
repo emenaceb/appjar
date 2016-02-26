@@ -38,7 +38,6 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 import com.github.emenaceb.appjar.maven.executor.AddBootExecutor;
 import com.github.emenaceb.appjar.maven.executor.AssemblyExecutor;
 import com.github.emenaceb.appjar.maven.executor.ExecutorContext;
-import com.github.emenaceb.appjar.maven.executor.GoalDescriptor;
 import com.github.emenaceb.appjar.maven.executor.UnpackDependenciesExecutor;
 import com.github.emenaceb.appjar.maven.utils.PluginUtils;
 
@@ -55,8 +54,6 @@ import com.github.emenaceb.appjar.maven.utils.PluginUtils;
  */
 @Mojo(name = "simple", defaultPhase = LifecyclePhase.PACKAGE, requiresDependencyResolution = ResolutionScope.RUNTIME)
 public class SimpleMojo extends AbstractMojo {
-
-	public static final GoalDescriptor JAR = new GoalDescriptor("org.apache.maven.plugins", "maven-jar-plugin", "2.0", "jar");
 
 	@Parameter(defaultValue = "${session}", readonly = true)
 	private MavenSession session;
@@ -128,7 +125,7 @@ public class SimpleMojo extends AbstractMojo {
 	}
 
 	private String resolveMainClass(ExecutorContext ctx) throws MojoExecutionException {
-		Plugin p = PluginUtils.resolveProjectPlugin(ctx, JAR);
+		Plugin p = PluginUtils.resolveProjectPlugin(ctx, MagicGoals.JAR_JAR);
 		if (p != null) {
 			Xpp3Dom projectConfig = (Xpp3Dom) p.getConfiguration();
 			if (projectConfig != null) {

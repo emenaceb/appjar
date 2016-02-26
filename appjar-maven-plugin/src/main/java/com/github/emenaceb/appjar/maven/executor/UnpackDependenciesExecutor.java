@@ -22,6 +22,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 
 import com.github.emenaceb.appjar.boot.MagicAppJarBoot;
 import com.github.emenaceb.appjar.maven.MagicAppJarPlugin;
+import com.github.emenaceb.appjar.maven.MagicGoals;
 
 /**
  * Adds dependencies to app jar.
@@ -31,8 +32,6 @@ import com.github.emenaceb.appjar.maven.MagicAppJarPlugin;
  */
 public class UnpackDependenciesExecutor extends BaseMojoExecutor {
 
-	public static final GoalDescriptor GOAL = new GoalDescriptor("org.apache.maven.plugins", "maven-dependency-plugin", "2.10", "unpack-dependencies");
-
 	public UnpackDependenciesExecutor(ExecutorContext context) {
 		super(context);
 	}
@@ -40,7 +39,7 @@ public class UnpackDependenciesExecutor extends BaseMojoExecutor {
 	@Override
 	public void exec() throws MojoExecutionException {
 
-		execMojo(GOAL, //
+		execMojo(MagicGoals.DEPENDENCIES_UNPACK_DEPS, //
 				configuration(//
 						element("outputDirectory", MagicAppJarPlugin.APPJAR_BUILD_DIR + "/" + MagicAppJarBoot.LIB_PREFIX), //
 						element("useSubDirectoryPerArtifact", "true")));

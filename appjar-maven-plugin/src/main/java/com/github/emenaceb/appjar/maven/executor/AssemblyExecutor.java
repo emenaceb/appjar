@@ -30,6 +30,7 @@ import org.twdata.maven.mojoexecutor.MojoExecutor.Element;
 
 import com.github.emenaceb.appjar.boot.AppJarBoot;
 import com.github.emenaceb.appjar.boot.MagicAppJarBoot;
+import com.github.emenaceb.appjar.maven.MagicGoals;
 
 /**
  * Packs app jar.
@@ -42,8 +43,6 @@ public class AssemblyExecutor extends BaseMojoExecutor {
 	private static final String APPJAR_ASSEMBLY_NAME = "appjar";
 	private static final String APPJAR_ASSEMBLY_ID = "app";
 	private static final String APPJAR_ASSEMBLY_EXT = "jar";
-
-	public static final GoalDescriptor GOAL = new GoalDescriptor("org.apache.maven.plugins", "maven-assembly-plugin", "2.6", "single");
 
 	private String mainClass;
 
@@ -100,7 +99,7 @@ public class AssemblyExecutor extends BaseMojoExecutor {
 		}
 
 		PluginDescriptor currentPlugin = context.getPlugin();
-		execMojo(GOAL, //
+		execMojo(MagicGoals.ASSEMBLY_SINGLE, //
 				configuration(elementArray(config)), //
 				singleDependency(currentPlugin.getGroupId(), currentPlugin.getArtifactId(), currentPlugin.getVersion()));
 
