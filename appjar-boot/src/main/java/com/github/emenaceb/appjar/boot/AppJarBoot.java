@@ -199,16 +199,7 @@ public class AppJarBoot {
 
 		final JarFile jarFile = new JarFile(file);
 		info.setJarFile(jarFile);
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			@Override
-			public void run() {
-				try {
-					jarFile.close();
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
+
 	}
 
 	private void printBanner(AppJarInfo info) {
