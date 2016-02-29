@@ -20,7 +20,6 @@ import static org.twdata.maven.mojoexecutor.MojoExecutor.element;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -41,7 +40,11 @@ import com.github.emenaceb.appjar.maven.MagicGoals;
 public class AssemblyExecutor extends BaseMojoExecutor {
 
 	private static final String APPJAR_ASSEMBLY_NAME = "appjar";
+
+	private static final String APPJAR_BANNER_ASSEMBLY_NAME = "appjar_banner";
+
 	private static final String APPJAR_ASSEMBLY_ID = "app";
+
 	private static final String APPJAR_ASSEMBLY_EXT = "jar";
 
 	private String mainClass;
@@ -50,17 +53,25 @@ public class AssemblyExecutor extends BaseMojoExecutor {
 
 	private String alternateClassifier;
 
-	public AssemblyExecutor(ExecutorContext context, String finalName, String mainClass, String alternateClassifier) {
+	private File bannerFile;
+
+	public AssemblyExecutor(ExecutorContext context, String finalName, String mainClass, String alternateClassifier, File bannerFile) {
 		super(context);
 		this.mainClass = mainClass;
 		this.alternateClassifier = StringUtils.isBlank(alternateClassifier) ? null : alternateClassifier.trim();
 		this.finalName = finalName;
+		this.bannerFile = bannerFile;
 	}
 
 	@Override
 	public void exec() throws MojoExecutionException {
 
-		packageWithAssembly(APPJAR_ASSEMBLY_NAME, //
+		String name = APPJAR_ASSEMBLY_NAME;
+		if (bannerFile != null) {
+			name = APPJAR_BANNER_ASSEMBLY_NAME;
+		}
+
+		packageWithAssembly(name, //
 				element("attach", "false"), //
 				element("archive", //
 						element("addMavenDescriptor", "true"), //
@@ -72,6 +83,10 @@ public class AssemblyExecutor extends BaseMojoExecutor {
 								element(MagicAppJarBoot.MF_APPJAR_MAIN_CLASS, mainClass))//
 		));
 
+		attachArtifact();
+	}
+
+	private void attachArtifact() {
 		String classifier = APPJAR_ASSEMBLY_ID;
 		File buildDir = new File(context.getProject().getBuild().getDirectory());
 		File generated = new File(buildDir, finalName + "-" + APPJAR_ASSEMBLY_ID + "." + APPJAR_ASSEMBLY_EXT);
@@ -95,7 +110,11 @@ public class AssemblyExecutor extends BaseMojoExecutor {
 		List<Element> config = new ArrayList<Element>();
 		config.add(element("descriptorRefs", element("descriptorRef", ref)));
 		if (elements != null) {
-			config.addAll(Arrays.asList(elements));
+			for (Element e : elements) {
+				if (e != null) {
+					config.add(e);
+				}
+			}
 		}
 
 		PluginDescriptor currentPlugin = context.getPlugin();

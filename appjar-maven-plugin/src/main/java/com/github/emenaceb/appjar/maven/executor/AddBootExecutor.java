@@ -20,6 +20,7 @@ import static org.twdata.maven.mojoexecutor.MojoExecutor.element;
 
 import org.apache.maven.plugin.MojoExecutionException;
 
+import com.github.emenaceb.appjar.boot.MagicAppJarBoot;
 import com.github.emenaceb.appjar.maven.MagicAppJarPlugin;
 import com.github.emenaceb.appjar.maven.MagicGoals;
 
@@ -43,7 +44,7 @@ public class AddBootExecutor extends BaseMojoExecutor {
 						element("artifactItems", //
 								element("artifactItem", //
 										element("groupId", context.getPlugin().getGroupId()), //
-										element("artifactId", MagicAppJarPlugin.APPJAR_BOOT_ARTIFACT_ID), //
+										element("artifactId", MagicAppJarBoot.MAVEN_APPJAR_BOOT_ARTIFACT_ID), //
 										element("version", context.getPlugin().getVersion()), //
 										element("outputDirectory", MagicAppJarPlugin.APPJAR_BUILD_DIR)))//
 		));

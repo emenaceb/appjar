@@ -16,6 +16,7 @@
 package com.github.emenaceb.appjar.maven;
 
 import java.io.File;
+import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.execution.MavenSession;
@@ -35,6 +36,7 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 
+import com.github.emenaceb.appjar.boot.MagicAppJarBoot;
 import com.github.emenaceb.appjar.maven.executor.AddBootExecutor;
 import com.github.emenaceb.appjar.maven.executor.AssemblyExecutor;
 import com.github.emenaceb.appjar.maven.executor.ExecutorContext;
@@ -92,14 +94,24 @@ public class SimpleMojo extends AbstractMojo {
 	private String mainClass;
 
 	/**
+	 * File with project custom banner.<br>
+	 */
+	@Parameter(readonly = false, required = false)
+	private File bannerFile;
+	/**
 	 * Final name for the artifact.
 	 */
 	@Parameter(defaultValue = "${project.build.finalName}", readonly = false, required = true)
 	private String finalName;
 
+	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 
 		ExecutorContext ctx = new ExecutorContext(plugin, project, session, pluginManager, projectHelper);
+
+		checkBanner();
+		String effectiveMainClass = resolveMainClass(ctx);
+		addAppJarProperties();
 
 		getLog().info("");
 		getLog().info("Adding bootstrap");
@@ -117,11 +129,16 @@ public class SimpleMojo extends AbstractMojo {
 		getLog().info("Packaging application");
 		getLog().info("");
 
-		String effectiveMainClass = resolveMainClass(ctx);
-		AssemblyExecutor assemblyExecutor = new AssemblyExecutor(ctx, finalName, effectiveMainClass, alternateClassifier);
+		AssemblyExecutor assemblyExecutor = new AssemblyExecutor(ctx, finalName, effectiveMainClass, alternateClassifier, bannerFile);
 
 		assemblyExecutor.exec();
 
+	}
+
+	private void checkBanner() throws MojoExecutionException {
+		if (!bannerFile.exists() || !bannerFile.canRead()) {
+			throw new MojoExecutionException("Baner file " + bannerFile.getAbsolutePath() + " can't be read");
+		}
 	}
 
 	private String resolveMainClass(ExecutorContext ctx) throws MojoExecutionException {
@@ -148,6 +165,17 @@ public class SimpleMojo extends AbstractMojo {
 			throw new MojoExecutionException("Can't find main class");
 		}
 		return mainClass;
+	}
+
+	private void addAppJarProperties() {
+		Properties properties = project.getProperties();
+		if (bannerFile != null) {
+			properties.setProperty(MagicAppJarPlugin.PRJ_PROP_APPJAR_BANNERFILE, bannerFile.getAbsolutePath());
+		}
+
+		properties.setProperty(MagicAppJarPlugin.PRJ_PROP_APPJAR_BUILD_DIR, MagicAppJarPlugin.APPJAR_BUILD_DIR);
+		properties.setProperty(MagicAppJarPlugin.PRJ_PROP_APPJAR_MAIN_LIB_PATH, MagicAppJarBoot.MAIN_LIB_PATH);
+		properties.setProperty(MagicAppJarPlugin.PRJ_PROP_APPJAR_BOOT_INFO_PATH, MagicAppJarBoot.MAVEN_APPJAR_BOOT_INFO_PATH);
 	}
 
 }

@@ -16,8 +16,7 @@
 package com.github.emenaceb.appjar.boot;
 
 import static com.github.emenaceb.appjar.boot.MagicAppJarBoot.LIB_PREFIX;
-import static com.github.emenaceb.appjar.boot.MagicAppJarBoot.MAVEN_APPJAR_BOOT_ARTIFACT_ID;
-import static com.github.emenaceb.appjar.boot.MagicAppJarBoot.MAVEN_APPJAR_GROUP_ID;
+import static com.github.emenaceb.appjar.boot.MagicAppJarBoot.MAVEN_APPJAR_BOOT_INFO_PATH;
 import static com.github.emenaceb.appjar.boot.MagicAppJarBoot.MF_APPJAR_MAIN_CLASS;
 import static com.github.emenaceb.appjar.boot.MagicAppJarBoot.SP_APPJAR_NO_BANNER;
 
@@ -50,9 +49,7 @@ public class AppJarBoot {
 
 	private final static Pattern LIB_PATTERN = Pattern.compile("^" + LIB_PREFIX + "([^/]+)/$");
 
-	private static final String MAVEN_META_INF = "META-INF/maven/";
-
-	private static final String MAVEN_POM_PROPERTIES = "/pom.properties";
+	private static final String MAVEN_POM_PROPERTIES = "pom.properties";
 
 	public final static String SP_JAVA_PROTOCOL_HANDLER = "java.protocol.handler.pkgs";
 
@@ -125,7 +122,7 @@ public class AppJarBoot {
 
 	public void extractVersion(AppJarInfo info) throws IOException {
 
-		String resource = MAVEN_META_INF + MAVEN_APPJAR_GROUP_ID + "/" + MAVEN_APPJAR_BOOT_ARTIFACT_ID + MAVEN_POM_PROPERTIES;
+		String resource = MAVEN_APPJAR_BOOT_INFO_PATH + MAVEN_POM_PROPERTIES;
 		InputStream is = getClass().getClassLoader().getResourceAsStream(resource);
 		if (is == null) {
 			abort("Not an AppJar application");

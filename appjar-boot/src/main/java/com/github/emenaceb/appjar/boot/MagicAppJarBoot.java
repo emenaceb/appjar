@@ -37,4 +37,6 @@ public class MagicAppJarBoot {
 
 	public static final String MAVEN_APPJAR_GROUP_ID = "com.github.emenaceb.appjar";
 
+	public static final String MAVEN_APPJAR_BOOT_INFO_PATH = "META-INF/maven/" + MAVEN_APPJAR_GROUP_ID + "/" + MAVEN_APPJAR_BOOT_ARTIFACT_ID + "/";
+
 }

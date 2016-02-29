@@ -25,7 +25,13 @@ public final class MagicAppJarPlugin {
 
 	public static final String APPJAR_BUILD_DIR = "${project.build.directory}/appjar";
 
-	public static final String APPJAR_BOOT_ARTIFACT_ID = "appjar-boot";
+	public static final String PRJ_PROP_APPJAR_BANNERFILE = "appjar.bannerfile";
+
+	public static final String PRJ_PROP_APPJAR_BOOT_INFO_PATH = "appjar.bootInfoPath";
+
+	public static final String PRJ_PROP_APPJAR_MAIN_LIB_PATH = "appjar.mainLibPath";
+
+	public static final String PRJ_PROP_APPJAR_BUILD_DIR = "appjar.buildDir";
 
 	private MagicAppJarPlugin() {
 	}
