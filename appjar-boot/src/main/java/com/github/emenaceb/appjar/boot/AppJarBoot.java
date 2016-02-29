@@ -23,6 +23,8 @@ import static com.github.emenaceb.appjar.boot.MagicAppJarBoot.SP_APPJAR_NO_BANNE
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
@@ -45,6 +47,8 @@ import com.github.emenaceb.appjar.boot.apploader.Handler;
  */
 public class AppJarBoot {
 
+	private static final String BANNER_SEPARATOR = "----------------------------------------------------------------------";
+
 	private static final String BOOT_CLASS_FILE_NAME = AppJarBoot.class.getName().replace('.', '/') + ".class";
 
 	private final static Pattern LIB_PATTERN = Pattern.compile("^" + LIB_PREFIX + "([^/]+)/$");
@@ -62,6 +66,79 @@ public class AppJarBoot {
 	private void abort(String message) {
 		System.out.println(message);
 		System.exit(255);
+	}
+
+	private void bannerPrint(AppJarInfo info) {
+		String version = info.getVersion();
+
+		boolean longBanner = System.getProperty(SP_APPJAR_NO_BANNER) == null;
+		String custom = bannerReadCustom();
+		boolean hasCustom = custom != null && !"".equals(custom.trim());
+
+		if (longBanner) {
+
+			bannerPrintLong(version);
+			System.out.println(BANNER_SEPARATOR);
+
+			if (hasCustom) {
+				System.out.println(custom);
+				System.out.println(BANNER_SEPARATOR);
+			}
+
+		} else if (hasCustom) {
+
+			System.out.println(custom);
+			System.out.println();
+			System.out.println(" Powered by AppJar v " + version + "  (c) emenaceb 2016");
+			System.out.println(BANNER_SEPARATOR);
+
+		} else {
+			System.out.println();
+			System.out.println(" AppJar v " + version + "  (c) emenaceb 2016");
+			System.out.println(BANNER_SEPARATOR);
+		}
+
+	}
+
+	private void bannerPrintLong(String version) {
+
+		System.out.println();
+		System.out.println("   ___                  __        ");
+		System.out.println("  / _ | ___  ___    __ / /__ _____      v " + version);
+		System.out.println(" / __ |/ _ \\/ _ \\  / // / _ `/ __/      ");
+		System.out.println("/_/ |_/ .__/ .__/  \\___/\\_,_/_/         (c) emenaceb 2016");
+		System.out.println("     /_/  /_/                             ");
+		System.out.println();
+
+	}
+
+	private String bannerReadCustom() {
+		String resource = MagicAppJarBoot.CUSTOM_BANNER_PATH;
+		InputStream is = getClass().getClassLoader().getResourceAsStream(resource);
+		if (is == null) {
+			return null;
+		}
+		Reader r = null;
+		try {
+			r = new InputStreamReader(is, "UTF-8");
+			StringBuilder sb = new StringBuilder();
+			int read = 0;
+			char[] buff = new char[8192];
+			while ((read = r.read(buff)) != -1) {
+				sb.append(buff, 0, read);
+			}
+			return sb.toString();
+		} catch (IOException ex) {
+			return "Error reading custom banner :" + ex.getMessage();
+		} finally {
+			if (r != null) {
+				try {
+					r.close();
+				} catch (IOException e) {
+					// Ignore
+				}
+			}
+		}
 	}
 
 	private void executeMainClass(AppJarInfo info, String[] args) throws Exception {
@@ -199,27 +276,6 @@ public class AppJarBoot {
 
 	}
 
-	private void printBanner(AppJarInfo info) {
-		String version = info.getVersion();
-
-		System.out.println();
-		if (System.getProperty(SP_APPJAR_NO_BANNER) == null) {
-
-			System.out.println("   ___                  __        ");
-			System.out.println("  / _ | ___  ___    __ / /__ _____      v " + version);
-			System.out.println(" / __ |/ _ \\/ _ \\  / // / _ `/ __/      ");
-			System.out.println("/_/ |_/ .__/ .__/  \\___/\\_,_/_/         by emenaceb 2016");
-			System.out.println("     /_/  /_/                             ");
-
-			System.out.println();
-
-		} else {
-			System.out.println(" AppJar v " + version + "  by emenaceb 2016");
-		}
-		System.out.println("----------------------------------------------------------------------");
-
-	}
-
 	private void registerClassLoader(AppJarInfo info) {
 		URL[] urls = info.getLibraryURLs().toArray(new URL[info.getLibraryURLs().size()]);
 		URLClassLoader classLoader = new URLClassLoader(urls, getClass().getClassLoader());
@@ -246,7 +302,7 @@ public class AppJarBoot {
 
 		extractVersion(info);
 
-		printBanner(info);
+		bannerPrint(info);
 
 		registerProtocol();
 

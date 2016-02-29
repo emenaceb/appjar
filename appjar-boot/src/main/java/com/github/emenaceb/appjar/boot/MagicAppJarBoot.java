@@ -39,4 +39,8 @@ public class MagicAppJarBoot {
 
 	public static final String MAVEN_APPJAR_BOOT_INFO_PATH = "META-INF/maven/" + MAVEN_APPJAR_GROUP_ID + "/" + MAVEN_APPJAR_BOOT_ARTIFACT_ID + "/";
 
+	public static final String CUSTOM_BANNER = "custom_banner.txt";
+
+	public static final String CUSTOM_BANNER_PATH = MAVEN_APPJAR_BOOT_INFO_PATH + CUSTOM_BANNER;
+
 }
