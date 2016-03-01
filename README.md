@@ -128,8 +128,8 @@ This banner may contain any Maven Project property like `${project.version}`.
 
 ### Disable default banner
 
-If you want to disable the big default AppJar banner, you can do it adding the `-Dappjar.noBanner` tho the command line and the
-default banner will be replaced to a more discreet message:
+If you want to disable the big default AppJar banner, you can do it adding the `-Dappjar.noBanner` to the command line and the
+default banner will be replaced with a more discreet message:
 
 ```
  AppJar v 0.9.1  (c) emenaceb 2016
