@@ -46,4 +46,56 @@ public class Handler extends URLStreamHandler {
 		throw new FileNotFoundException(u.toExternalForm());
 	}
 
+	/* remove host lookup */
+	@Override
+	protected int hashCode(URL u) {
+		int h = 0;
+
+		// Generate the protocol part.
+		String protocol = u.getProtocol();
+		if (protocol != null) {
+			h += protocol.hashCode();
+		}
+
+		// Generate the host part.
+		String host = u.getHost();
+		if (host != null) {
+			h += host.toLowerCase().hashCode();
+		}
+
+		// Generate the file part.
+		String file = u.getFile();
+		if (file != null) {
+			h += file.hashCode();
+		}
+
+		// Generate the port part.
+		if (u.getPort() == -1) {
+			h += getDefaultPort();
+		} else {
+			h += u.getPort();
+		}
+
+		// Generate the ref part.
+		String ref = u.getRef();
+		if (ref != null) {
+			h += ref.hashCode();
+		}
+
+		return h;
+	}
+
+	/* remove host lookup */
+	@Override
+	protected boolean hostsEqual(URL u1, URL u2) {
+		String h1 = u1 != null ? u1.getHost() : null;
+		String h2 = u2 != null ? u2.getHost() : null;
+		// else, if both have host names, compare them
+		if (h1 != null && h2 != null) {
+			return h1.equalsIgnoreCase(h2);
+		} else {
+			return h1 == null && h2 == null;
+		}
+	}
+
 }
